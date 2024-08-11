@@ -1,43 +1,42 @@
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-# Generating random data for height (m) and weight (kg)
+# Generar datos aleatorios para la altura (m) y el peso (kg)
 np.random.seed(0)
-heights = np.random.uniform(1.4, 2.0, 100)  # Height between 1.4m and 2.0m
-weights = []
+alturas = np.random.uniform(1.4, 2.0, 100)  # Alturas entre 1.4m y 2.0m
+pesos = []
 
-# Generating controlled random weights based on height
-for h in heights:
-    weight = np.random.uniform(18.5 * h ** 2, 25 * h ** 2)  # BMI between 18.5 and 25
-    weights.append(weight)
+# Generar pesos aleatorios controlados basados en la altura
+for altura in alturas:
+    peso = np.random.uniform(18.5 * altura ** 2, 25 * altura ** 2)  # IMC entre 18.5 y 25
+    pesos.append(peso)
 
-# Create a DataFrame to store the data
-data = pd.DataFrame({
-    'Height (m)': heights,
-    'Weight (kg)': weights
+# Crear un DataFrame para almacenar los datos
+datos = pd.DataFrame({
+    'Altura (m)': alturas,
+    'Peso (kg)': pesos
 })
 
-# Define a function for the model (linear in this case)
-def linear_model(x, a, b):
+# Definir una función para el modelo (lineal en este caso)
+def modelo_lineal(x, a, b):
     return a * x + b
 
-# Fit the curve to the data
-popt, pcov = curve_fit(linear_model, data['Height (m)'], data['Weight (kg)'])
+# Ajustar la curva a los datos
+parametros_optimos, matriz_covarianza = curve_fit(modelo_lineal, datos['Altura (m)'], datos['Peso (kg)'])
 
-# Get the parameters of the fitted line
-a, b = popt
+# Obtener los parámetros de la línea ajustada
+a, b = parametros_optimos
 
-# Generate the predicted weights
-predicted_weights = linear_model(data['Height (m)'], a, b)
+# Generar los pesos predichos
+pesos_predichos = modelo_lineal(datos['Altura (m)'], a, b)
 
-# Plotting the data and the fitted line
-plt.scatter(data['Height (m)'], data['Weight (kg)'], label='Data')
-plt.plot(data['Height (m)'], predicted_weights, color='red', label=f'Fitted line: y = {{a:.2f}}x + {{b:.2f}}')
-plt.xlabel('Height (m)')
-plt.ylabel('Weight (kg)')
-plt.title('Height vs. Weight with Fitted Line')
+# Graficar los datos y la línea ajustada
+plt.scatter(datos['Altura (m)'], datos['Peso (kg)'], label='Datos')
+plt.plot(datos['Altura (m)'], pesos_predichos, color='red', label=f'Línea ajustada: y = {a:.2f}x + {b:.2f}')
+plt.xlabel('Altura (m)')
+plt.ylabel('Peso (kg)')
+plt.title('Relación entre Altura y Peso con Línea Ajustada')
 plt.legend()
 plt.show()
