@@ -40,3 +40,6 @@ plt.ylabel('Peso (kg)')
 plt.title('Relación entre Altura y Peso con Línea Ajustada')
 plt.legend()
 plt.show()
+
+#Repositorio en github
+#https://github.com/richardcruz98/Inteligencia-Artificial-I
